@@ -24,9 +24,10 @@ public class Drivetrain extends SubsystemBase {
   // to use DIO pins 4/5 and 6/7 for the left and right
   private final Encoder m_leftEncoder = new Encoder(4, 5);
   private final Encoder m_rightEncoder = new Encoder(6, 7);
+  private final double kWheelDistPerPulse = (Math.PI * DrivetrainConstants.kWheelDiameterInch) / DrivetrainConstants.kCountsPerRevolution;
 
   // Set up the differential drive controller
-  private final DifferentialDrive m_diffDrive =
+  private final DifferentialDrive m_diffDrive = 
       new DifferentialDrive(m_leftMotor::set, m_rightMotor::set);
 
   // Set up the XRPGyro
@@ -46,10 +47,8 @@ public class Drivetrain extends SubsystemBase {
     m_rightMotor.setInverted(true);
 
     // Use inches as unit for encoder distances
-    m_leftEncoder.setDistancePerPulse((Math.PI * kWheelDiameterInch) / kCountsPerRevolution);
-    m_rightEncoder.setDistancePerPulse((Math.PI * kWheelDiameterInch) / kCountsPerRevolution);
-    resetEncoders();
-  }
+    m_leftEncoder.setDistancePerPulse((Math.PI * DrivetrainConstants.kWheelDiameterInch) / DrivetrainConstants.kCountsPerRevolution);
+    m_rightEncoder.setDistancePerPulse((Math.PI * DrivetrainConstants.kWheelDiameterInch) / DrivetrainConstants.kCountsPerRevolution);
 
   public void arcadeDrive(double xaxisSpeed, double zaxisRotate) {
     m_diffDrive.arcadeDrive(xaxisSpeed, zaxisRotate);
